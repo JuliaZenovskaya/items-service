@@ -7,8 +7,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -41,9 +39,10 @@ public class ItemController {
     }
 
     @GetMapping(value = "{id}")
-    public Item getItemById(int id) {
+    public Item getItemById(@PathVariable String id) {
         try {
-            Item temp = itemService.getItemById(id);
+            int toId = Integer.parseInt(id);
+            Item temp = itemService.getItemById(toId);
             log.info("Найден товар по id = " + id);
             return temp;
         } catch (SQLException e) {

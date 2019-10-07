@@ -5,7 +5,7 @@ public class CreateItem {
     public float price;
     public int amount;
 
-    public CreateItem(int id, String name, float price, int amount){
+    public CreateItem(String name, float price, int amount){
         this.name = name;
         this.price = price;
         this.amount = amount;
