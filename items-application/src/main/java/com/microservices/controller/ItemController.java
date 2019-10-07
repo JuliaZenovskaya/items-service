@@ -23,9 +23,9 @@ public class ItemController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addNewItem(@RequestBody CreateItem createItem) {
+    public void addNewItem(@RequestParam String name, @RequestParam float price, @RequestParam int amount) {
         try {
+            CreateItem createItem = new CreateItem(name, price, amount);
             itemService.addNewItem(createItem);
             log.info("Добавлен новый товар");
         } catch (SQLException e) {
@@ -39,10 +39,9 @@ public class ItemController {
     }
 
     @GetMapping(value = "{id}")
-    public Item getItemById(@PathVariable String id) {
+    public Item getItemById(@PathVariable int id) {
         try {
-            int toId = Integer.parseInt(id);
-            Item temp = itemService.getItemById(toId);
+            Item temp = itemService.getItemById(id);
             log.info("Найден товар по id = " + id);
             return temp;
         } catch (SQLException e) {

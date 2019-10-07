@@ -34,7 +34,7 @@ public class DBHelper {
         Statement statement = connection.createStatement();
         String sql = "INSERT INTO " + TABLE_NAME + " (" + NAME + "," + PRICE + "," + AMOUNT + ") VALUES (" +
                 name + "," + price + "," + amount + ");";
-        statement.execute(sql);
+        statement.executeQuery(sql);
         connection.close();
     }
 
@@ -70,7 +70,7 @@ public class DBHelper {
     }
 
     public Item searchItemById(int id) throws SQLException {
-        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + ID + " LIKE " + id + " && " + AMOUNT + " is not null";
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + ID + " = " + id + " && " + AMOUNT + " is not NULL";
         return getItems(sql).get(0);
     }
 

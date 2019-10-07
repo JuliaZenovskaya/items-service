@@ -21,7 +21,7 @@ public class CreateItem {
     @NotNull
     public int amount;
 
-    public CreateItem(String name, float price, int amount){
+    public CreateItem(@NotNull String name, @NotNull float price, @NotNull int amount) {
         this.name = name;
         this.price = price;
         this.amount = amount;
