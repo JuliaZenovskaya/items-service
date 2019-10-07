@@ -32,9 +32,9 @@ public class DBHelper {
     public void createItem(String name, float price, int amount) throws SQLException {
         getConnection();
         Statement statement = connection.createStatement();
-        String sql = "INSERT INTO " + TABLE_NAME + " (" + NAME + "," + PRICE + "," + AMOUNT + ") VALUES (" +
-                name + "," + price + "," + amount + ");";
-        statement.executeQuery(sql);
+        String sql = "INSERT INTO " + TABLE_NAME + " (" + NAME + "," + PRICE + "," + AMOUNT + ") VALUES ('" +
+                name + "'," + price + "," + amount + ");";
+        statement.execute(sql);
         connection.close();
     }
 
@@ -70,18 +70,18 @@ public class DBHelper {
     }
 
     public Item searchItemById(int id) throws SQLException {
-        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + ID + " = " + id + " && " + AMOUNT + " is not NULL";
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + ID + " = " + id;
         return getItems(sql).get(0);
     }
 
     public ArrayList<Item> showAllItems() throws SQLException {
-        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + AMOUNT + " is not NULL";
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + AMOUNT + " > 0";
         return getItems(sql);
     }
 
     public ArrayList<Item> searchItemsByName(String name) throws SQLException {
-        name = "*" + name + "*";
-        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + NAME + " LIKE " + name + " && " + AMOUNT + " is not null";
+        name = "%" + name + "%";
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + NAME + " LIKE '" + name + "' && " + AMOUNT + " > 0";
         return getItems(sql);
     }
 }

@@ -6,7 +6,10 @@ import com.microservices.service.ItemService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -23,9 +26,9 @@ public class ItemController {
     }
 
     @PostMapping
-    public void addNewItem(@RequestParam String name, @RequestParam float price, @RequestParam int amount) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addNewItem(@Valid @RequestBody CreateItem createItem) {
         try {
-            CreateItem createItem = new CreateItem(name, price, amount);
             itemService.addNewItem(createItem);
             log.info("Добавлен новый товар");
         } catch (SQLException e) {
@@ -38,7 +41,7 @@ public class ItemController {
             return itemService.getAllItems();
     }
 
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "/id/{id}")
     public Item getItemById(@PathVariable int id) {
         try {
             Item temp = itemService.getItemById(id);
