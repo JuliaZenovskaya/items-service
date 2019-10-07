@@ -6,7 +6,6 @@ import com.microservices.service.ItemService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 @RequestMapping("items")
 public class ItemController {
     private ItemService itemService;
-
     private static final Logger log = Logger.getLogger(ItemController.class);
 
     @Autowired
@@ -30,9 +28,9 @@ public class ItemController {
     public void addNewItem(@Valid @RequestBody CreateItem createItem) {
         try {
             itemService.addNewItem(createItem);
-            log.info("Добавлен новый товар");
+            log.info("New item was added: " + createItem.toString());
         } catch (SQLException e) {
-            log.error("Ошибка добавления товара в БД: " + e.toString());
+            log.error("Error with adding the item: " + e.toString());
         }
     }
 
@@ -45,10 +43,10 @@ public class ItemController {
     public Item getItemById(@PathVariable int id) {
         try {
             Item temp = itemService.getItemById(id);
-            log.info("Найден товар по id = " + id);
+            log.info("Item with id = " + id + " was found: " + temp.toString());
             return temp;
         } catch (SQLException e) {
-            log.error("Ошибка поиска товара с id = " + id + ": " + e.toString());
+            log.error("Item with id = " + id + "was not found: " + e.toString());
             return null;
         }
     }
@@ -57,9 +55,9 @@ public class ItemController {
     public void changeItem(@PathVariable int id, @PathVariable int amount) {
         try {
             itemService.changeItemAmount(id, amount);
-            log.info("К количеству товара с id = " + id + " добавлено " + amount);
+            log.info("To amount of item with " + id + " was  added" + amount);
         } catch (SQLException e) {
-            log.error("Ошибка изменения количества товара с id = " + id + ": " + e.toString());
+            log.error("Error with updating amount of item with id = " + id + ": " + e.toString());
         }
     }
 
@@ -67,10 +65,10 @@ public class ItemController {
     public ArrayList<Item> getItemsByName(@PathVariable String name) {
         try {
             ArrayList<Item> temp = itemService.getItemByName(name);
-            log.info("Найдены товары, содержащие в названии подстроку '" + name + "'");
+            log.info("Items included substring '" + name + "' was found");
             return temp;
         } catch (SQLException e) {
-            log.error("Ошибка поиска товаров: " + e.toString());
+            log.error("Items included substring '" + name + "' was not found: " + e.toString());
             return null;
         }
     }
