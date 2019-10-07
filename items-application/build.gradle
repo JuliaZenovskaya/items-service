@@ -13,7 +13,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 bootJar {
-    baseName = 'itens-service-application'
+    baseName = 'items-service-application'
     //version = applicationVersion
     enabled = true
 }
@@ -26,8 +26,9 @@ repositories {
 }
 
 dependencies {
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.0.7.Final'
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.31'
-    //runtime "mysql:mysql-connector-java:5.1.31"
+    runtime "mysql:mysql-connector-java:5.1.31"
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
     //compile "com.microservices.accounting.api:accounting-api:${accountingApiVersion}"
     compile 'org.springframework.boot:spring-boot-starter-web'

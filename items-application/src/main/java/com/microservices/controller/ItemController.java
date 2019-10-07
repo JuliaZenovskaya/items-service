@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -23,9 +24,9 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @PostMapping(value = "add")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    void addNewItem(CreateItem createItem) {
+    public void addNewItem(@RequestBody CreateItem createItem) {
         try {
             itemService.addNewItem(createItem);
             log.info("Добавлен новый товар");
@@ -34,8 +35,13 @@ public class ItemController {
         }
     }
 
+    @GetMapping
+    public ArrayList<Item> getAllItems() throws SQLException {
+            return itemService.getAllItems();
+    }
+
     @GetMapping(value = "{id}")
-    Item getItemById(int id) {
+    public Item getItemById(int id) {
         try {
             Item temp = itemService.getItemById(id);
             log.info("Найден товар по id = " + id);
@@ -47,7 +53,7 @@ public class ItemController {
     }
 
     @PutMapping(value = "{id}/change/{amount}")
-    void changeItem(int id, int amount) {
+    public void changeItem(@PathVariable int id, @PathVariable int amount) {
         try {
             itemService.changeItemAmount(id, amount);
             log.info("К количеству товара с id = " + id + " добавлено " + amount);
@@ -57,7 +63,7 @@ public class ItemController {
     }
 
     @GetMapping(value = "{name}")
-    ArrayList<Item> getItemsByName(@PathVariable String name) {
+    public ArrayList<Item> getItemsByName(@PathVariable String name) {
         try {
             ArrayList<Item> temp = itemService.getItemByName(name);
             log.info("Найдены товары, содержащие в названии подстроку '" + name + "'");

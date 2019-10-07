@@ -75,6 +75,7 @@ public class DBHelper {
     }
 
     public ArrayList<Item> searchItemsByName(String name) throws SQLException {
+        name = "*" + name + "*";
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + NAME + " LIKE " + name + " && " + AMOUNT + " is not null";
         return getItems(sql);
     }
