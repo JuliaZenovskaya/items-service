@@ -35,8 +35,15 @@ public class ItemController {
     }
 
     @GetMapping
-    public ArrayList<Item> getAllItems() throws SQLException {
-            return itemService.getAllItems();
+    public ArrayList<Item> getAllItems() {
+        try {
+            ArrayList<Item> temp = itemService.getAllItems();
+            log.info("All existing items were found");
+            return temp;
+        } catch (SQLException e) {
+            log.error("Error with finding items: " + e.toString());
+            return null;
+        }
     }
 
     @GetMapping(value = "/id/{id}")
