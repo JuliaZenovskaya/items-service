@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping("items")
+@RequestMapping("warehouse")
 public class ItemController {
     private ItemService itemService;
     private static final Logger log = Logger.getLogger(ItemController.class);
@@ -23,7 +23,7 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @PostMapping
+    @PostMapping (value = "items")
     @ResponseStatus(HttpStatus.CREATED)
     public void addNewItem(@Valid @RequestBody CreateItem createItem) {
         try {
@@ -34,7 +34,7 @@ public class ItemController {
         }
     }
 
-    @GetMapping
+    @GetMapping(value = "items")
     public ArrayList<Item> getAllItems() {
         try {
             ArrayList<Item> temp = itemService.getAllItems();
@@ -46,19 +46,19 @@ public class ItemController {
         }
     }
 
-    @GetMapping(value = "/id/{id}")
-    public Item getItemById(@PathVariable int id) {
+    @GetMapping(value = "/items/{item_id}")
+    public Item getItemById(@PathVariable int item_id) {
         try {
-            Item temp = itemService.getItemById(id);
-            log.info("Item with id = " + id + " was found: " + temp.toString());
+            Item temp = itemService.getItemById(item_id);
+            log.info("Item with id = " + item_id + " was found: " + temp.toString());
             return temp;
         } catch (SQLException e) {
-            log.error("Item with id = " + id + "was not found: " + e.toString());
+            log.error("Item with id = " + item_id + "was not found: " + e.toString());
             return null;
         }
     }
 
-    @PutMapping(value = "{id}/change/{amount}")
+    @PutMapping(value = "items/{id}/addition/{amount}")
     public void changeItem(@PathVariable int id, @PathVariable int amount) {
         try {
             itemService.changeItemAmount(id, amount);
@@ -68,7 +68,7 @@ public class ItemController {
         }
     }
 
-    @GetMapping(value = "{name}")
+    @GetMapping(value = "items/{name}")
     public ArrayList<Item> getItemsByName(@PathVariable String name) {
         try {
             ArrayList<Item> temp = itemService.getItemByName(name);
