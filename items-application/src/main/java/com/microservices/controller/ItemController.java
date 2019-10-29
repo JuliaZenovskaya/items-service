@@ -25,12 +25,13 @@ public class ItemController {
 
     @PostMapping (value = "items")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addNewItem(@Valid @RequestBody CreateItem createItem) {
+    public Item addNewItem(@Valid @RequestBody CreateItem createItem) {
         try {
-            itemService.addNewItem(createItem);
-            log.info("New item was added: " + createItem.toString());
+            return itemService.addNewItem(createItem);
+            //log.info("New item was added: " + createItem.toString());
         } catch (SQLException e) {
             log.error("Error with adding the item: " + e.toString());
+            return null;
         }
     }
 
@@ -59,12 +60,13 @@ public class ItemController {
     }
 
     @PutMapping(value = "items/{id}/addition/{amount}")
-    public void changeItem(@PathVariable int id, @PathVariable int amount) {
+    public Item changeItem(@PathVariable int id, @PathVariable int amount) {
         try {
-            itemService.changeItemAmount(id, amount);
-            log.info("To amount of item with " + id + " was  added" + amount);
+            return itemService.changeItemAmount(id, amount);
+            //log.info("To amount of item with " + id + " was  added" + amount);
         } catch (SQLException e) {
             log.error("Error with updating amount of item with id = " + id + ": " + e.toString());
+            return null;
         }
     }
 

@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DBHelper {
-    private static final String ID = "iditem";
+    private static final String ID = "id";
     private static final String BD_NAME = "items";
     private static final String TABLE_NAME = "item";
     private static final String NAME = "name";
@@ -29,28 +29,46 @@ public class DBHelper {
         }
     }
 
-    public void createItem(String name, float price, int amount) throws SQLException {
+    public Item createItem(String name, float price, int amount) throws SQLException {
         getConnection();
         Statement statement = connection.createStatement();
         String sql = "INSERT INTO " + TABLE_NAME + " (" + NAME + "," + PRICE + "," + AMOUNT + ") VALUES ('" +
                 name + "'," + price + "," + amount + ");";
         statement.execute(sql);
+        Statement statement1 = connection.createStatement();
+        sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + ID + " = (SELECT MAX(" + ID + " ) FROM "
+                + TABLE_NAME + ")";
+        ResultSet rs = statement1.executeQuery(sql);
+        int id = 0;
+        if (rs != null) {
+            rs.absolute(1);
+            id = rs.getInt(ID);
+        }
         connection.close();
+        return new Item(id, name, price, amount);
     }
 
-    public void changeItemAmount(int id, int amount) throws SQLException {
+    public Item changeItemAmount(int id, int amount) throws SQLException {
         getConnection();
         Statement statement = connection.createStatement();
-        String sql = "SELECT " + AMOUNT + " FROM " + TABLE_NAME + " WHERE " + ID + "=" + id + ";";
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + ID + "=" + id + ";";
         ResultSet resultSet = statement.executeQuery(sql);
         int newAmount = amount;
-        while (resultSet.next()){
+        String name = "";
+        float price = 0;
+        while (resultSet.next()) {
             newAmount += resultSet.getInt(AMOUNT);
+            name = resultSet.getString(NAME);
+            price = resultSet.getFloat(PRICE);
         }
-
-        sql = "UPDATE " + TABLE_NAME + " SET " + AMOUNT + " = " + newAmount + " WHERE " + ID + "=" + id + ";";
-        statement.execute(sql);
-        connection.close();
+        if (newAmount > 0) {
+            sql = "UPDATE " + TABLE_NAME + " SET " + AMOUNT + " = " + newAmount + " WHERE " + ID + "=" + id + ";";
+            statement.execute(sql);
+            connection.close();
+            return new Item(id, name, price, newAmount);
+        } else {
+            return null;
+        }
     }
 
     private ArrayList<Item> getItems(String sql) throws SQLException {

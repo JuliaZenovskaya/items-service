@@ -15,8 +15,8 @@ public class ItemServiceImpl implements ItemService {
     DBHelper dbHelper = new DBHelper();
 
     @Override
-    public void addNewItem(CreateItem createItem) throws SQLException {
-        dbHelper.createItem(createItem.name, createItem.price, createItem.amount);
+    public Item addNewItem(CreateItem createItem) throws SQLException {
+        return dbHelper.createItem(createItem.name, createItem.price, createItem.amount);
     }
 
     @Override
@@ -25,8 +25,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void changeItemAmount(int id, int amount) throws SQLException {
-        dbHelper.changeItemAmount(id, amount);
+    public Item changeItemAmount(int id, int amount) throws SQLException {
+        return dbHelper.changeItemAmount(id, amount);
     }
 
     @Override
