@@ -4,7 +4,6 @@ import com.microservices.database.DBHelper;
 import com.microservices.model.CreateItem;
 import com.microservices.model.Item;
 import com.microservices.service.ItemService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 
 @Service
 public class ItemServiceImpl implements ItemService {
-    DBHelper dbHelper = new DBHelper();
+    private DBHelper dbHelper = new DBHelper();
 
     @Override
     public Item addNewItem(CreateItem createItem) throws SQLException {

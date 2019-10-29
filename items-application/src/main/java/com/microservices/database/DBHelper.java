@@ -19,7 +19,7 @@ public class DBHelper {
     private static Connection connection;
 
 
-    public void getConnection() {
+    private void getConnection() {
         try {
             Driver driver = new FabricMySQLDriver();
             DriverManager.registerDriver(driver);
