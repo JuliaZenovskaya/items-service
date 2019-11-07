@@ -70,7 +70,7 @@ public class ItemController {
         }
     }
 
-    @GetMapping(value = "items/{name}")
+    @GetMapping(value = "items/name/{name}")
     public ArrayList<Item> getItemsByName(@PathVariable String name) {
         try {
             ArrayList<Item> temp = itemService.getItemByName(name);
