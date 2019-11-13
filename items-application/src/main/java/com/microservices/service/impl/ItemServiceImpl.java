@@ -40,6 +40,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public boolean checkItemAmount(int id, int amount) throws SQLException {
+        return dbHelper.checkItemAmount(id, amount);
+    }
+
+    @Override
     public Item getItemById(int id) throws SQLException {
         return dbHelper.searchItemById(id);
     }

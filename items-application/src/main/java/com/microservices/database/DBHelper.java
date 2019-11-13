@@ -29,6 +29,19 @@ public class DBHelper {
         }
     }
 
+    public boolean checkItemAmount(int id, int amount) throws SQLException {
+        getConnection();
+        Statement statement = connection.createStatement();
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + ID + " = " + id;
+        ResultSet resultSet = statement.executeQuery(sql);
+        if (resultSet != null) {
+            resultSet.first();
+            return resultSet.getInt(AMOUNT) + amount > 0;
+        } else {
+            return false;
+        }
+    }
+
     public Item createItem(String name, float price, int amount) throws SQLException {
         getConnection();
         Statement statement = connection.createStatement();

@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface ItemService {
+    boolean checkItemAmount(int id, int amount) throws SQLException;
     void consume (ItemDTO itemDTO) throws SQLException, JsonProcessingException;
     Item addNewItem(CreateItem createItem) throws SQLException;
     Item getItemById(int id) throws SQLException;

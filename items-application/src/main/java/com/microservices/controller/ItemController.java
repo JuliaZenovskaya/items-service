@@ -62,7 +62,11 @@ public class ItemController {
     @PutMapping(value = "items/{id}/addition/{amount}")
     public Item changeItem(@PathVariable int id, @PathVariable int amount) {
         try {
-            return itemService.changeItemAmount(id, amount);
+            if (!itemService.checkItemAmount(id, amount)) {
+                return null;
+            } else {
+                return itemService.changeItemAmount(id, amount);
+            }
             //log.info("To amount of item with " + id + " was  added" + amount);
         } catch (SQLException e) {
             log.error("Error with updating amount of item with id = " + id + ": " + e.toString());
