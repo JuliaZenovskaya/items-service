@@ -36,7 +36,7 @@ public class DBHelper {
         ResultSet resultSet = statement.executeQuery(sql);
         if (resultSet != null) {
             resultSet.first();
-            return resultSet.getInt(AMOUNT) + amount > 0;
+            return resultSet.getInt(AMOUNT) + amount >= 0;
         } else {
             return false;
         }
@@ -74,7 +74,7 @@ public class DBHelper {
             name = resultSet.getString(NAME);
             price = resultSet.getFloat(PRICE);
         }
-        if (newAmount > 0) {
+        if (newAmount >= 0) {
             sql = "UPDATE " + TABLE_NAME + " SET " + AMOUNT + " = " + newAmount + " WHERE " + ID + "=" + id + ";";
             statement.execute(sql);
             connection.close();

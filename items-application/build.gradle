@@ -28,6 +28,7 @@ repositories {
 dependencies {
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.0.7.Final'
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.48'
+    compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:2.1.4.RELEASE'
     runtime "mysql:mysql-connector-java:5.1.48"
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
     compile 'org.springframework.boot:spring-boot-starter-web'
